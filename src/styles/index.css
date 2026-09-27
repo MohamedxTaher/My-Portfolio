@@ -1,0 +1,16 @@
+/* ==========================================================================
+   index.css — the import graph. Order matters: tokens → base → typography
+   → materials → shell → sections.
+   ========================================================================== */
+
+@import './tokens.css';
+@import './base.css';
+@import './typography.css';
+@import './materials.css';
+@import './shell.css';
+@import './sections/about.css';
+@import './sections/experience.css';
+@import './sections/certifications.css';
+@import './sections/skills.css';
+@import './sections/projects.css';
+@import './sections/contact.css';

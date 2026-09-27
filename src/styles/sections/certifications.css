@@ -1,0 +1,281 @@
+/* ==========================================================================
+   sections/certifications.css — 03 VERIFICATION ARCHIVE: certificate image
+   gallery with large shots, scan reveal, and a full-screen lightbox.
+   ========================================================================== */
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2.25rem);
+}
+
+@media (max-width: 767px) {
+  .cert-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cert-card {
+  position: relative;
+  will-change: transform;
+}
+
+.cert-card-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+  background: var(--bg-1);
+  border: 1px solid var(--line-0);
+  border-radius: var(--r-3);
+  overflow: hidden;
+  transition: border-color var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out),
+    box-shadow var(--dur-med) var(--ease-out);
+}
+
+/* cursor-tracked spotlight sheen (set via a motion template) */
+.cert-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity var(--dur-med) var(--ease-out);
+}
+
+.cert-card-btn:hover .cert-glow,
+.cert-card-btn:focus-visible .cert-glow {
+  opacity: 1;
+}
+
+.cert-card-btn:hover,
+.cert-card-btn:focus-visible {
+  border-color: var(--cyan-line);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 44px rgba(4, 8, 15, 0.6), var(--glow-signal);
+}
+
+/* the certificate image — the hero of each card */
+.cert-shot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line-0);
+}
+
+.cert-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: saturate(1.02);
+  transition: transform var(--dur-large) var(--ease-out);
+}
+
+.cert-card-btn:hover .cert-shot img,
+.cert-card-btn:focus-visible .cert-shot img {
+  transform: scale(1.04);
+}
+
+/* scan-line sweep on hover — signal event, not static ornament */
+.cert-shot-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(79, 227, 255, 0.14) 50%, transparent 100%);
+  background-size: 100% 220%;
+  background-position: 0 -120%;
+  opacity: 0;
+  transition: opacity var(--dur-small) var(--ease-out);
+}
+
+.cert-card-btn:hover .cert-shot-scan,
+.cert-card-btn:focus-visible .cert-shot-scan {
+  opacity: 1;
+  animation: cert-scan 1.7s var(--ease-inout) infinite;
+}
+
+@keyframes cert-scan {
+  0% {
+    background-position: 0 -120%;
+  }
+  100% {
+    background-position: 0 120%;
+  }
+}
+
+.cert-zoom {
+  position: absolute;
+  right: var(--s-3);
+  bottom: var(--s-3);
+  padding: 5px 10px;
+  color: var(--cyan-1);
+  background: rgba(5, 8, 15, 0.82);
+  border: 1px solid var(--cyan-line);
+  border-radius: var(--r-1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--dur-small) var(--ease-out), transform var(--dur-small) var(--ease-out);
+}
+
+.cert-card-btn:hover .cert-zoom,
+.cert-card-btn:focus-visible .cert-zoom {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* metadata block */
+.cert-meta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-5) var(--s-5) var(--s-6);
+}
+
+.cert-idx {
+  position: absolute;
+  top: var(--s-5);
+  right: var(--s-5);
+  color: var(--ink-2);
+}
+
+.cert-cat {
+  color: var(--cyan-0);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cert-name {
+  font-family: var(--font-body);
+  font-size: 1.08rem;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--ink-0);
+  max-width: 34ch;
+}
+
+.cert-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-4);
+  margin-top: var(--s-1);
+}
+
+.cert-issuer {
+  font-size: var(--text-body-s);
+  color: var(--ink-1);
+}
+
+.cert-year {
+  color: var(--ink-2);
+}
+
+.cert-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  align-self: flex-start;
+  margin-top: var(--s-2);
+  padding: 6px 12px;
+  border: 1px solid rgba(166, 242, 107, 0.35);
+  border-radius: var(--r-1);
+  background: var(--lime-tint);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lime-0);
+}
+
+/* -- full-screen lightbox --------------------------------------------------- */
+
+.cert-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-dialog);
+  display: grid;
+  place-items: center;
+  padding: clamp(1.25rem, 5vh, 4rem) var(--gutter);
+  background: rgba(4, 7, 13, 0.92);
+  backdrop-filter: blur(16px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.cert-close {
+  position: fixed;
+  top: clamp(1rem, 3vh, 2rem);
+  right: clamp(1rem, 3vw, 2.5rem);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ink-0);
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-1);
+  background: rgba(7, 12, 22, 0.85);
+  transition: color var(--dur-small) var(--ease-out), border-color var(--dur-small) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+}
+
+.cert-close:hover,
+.cert-close:focus-visible {
+  color: var(--cyan-1);
+  border-color: var(--cyan-line);
+  transform: rotate(90deg);
+}
+
+.cert-figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  max-width: min(1100px, 100%);
+  margin: auto;
+}
+
+.cert-figure img {
+  display: block;
+  width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-2);
+  background: var(--bg-2);
+  box-shadow: 0 30px 80px rgba(2, 5, 10, 0.7);
+}
+
+.cert-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-4);
+}
+
+.cert-caption-title {
+  font-size: var(--text-body-l);
+  font-weight: 650;
+  color: var(--ink-0);
+}
+
+.cert-caption-sub {
+  color: var(--cyan-0);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 767px) {
+  .cert-figure img {
+    max-height: 68vh;
+  }
+}

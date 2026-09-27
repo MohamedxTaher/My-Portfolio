@@ -1,0 +1,226 @@
+/* ==========================================================================
+   sections/experience.css — 02 THE TRACE: sticky rail + scroll-drawn signal
+   line + the DEPI checkpoint rendered as a full editorial entry.
+   ========================================================================== */
+
+.trace {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.36fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+
+/* -- sticky rail ----------------------------------------------------------- */
+
+.trace-rail {
+  position: sticky;
+  top: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+}
+
+.trace-rail-title {
+  font-size: var(--text-t2);
+  color: var(--ink-0);
+}
+
+.trace-rail-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+/* -- checkpoint --------------------------------------------------------------- */
+
+.trace-entry {
+  position: relative;
+  padding-left: clamp(2.2rem, 4vw, 3.5rem);
+}
+
+/* the vertical signal path — stub through the entry, fading out */
+.trace-path {
+  position: absolute;
+  left: 5px;
+  top: 22px;
+  bottom: calc(-1 * var(--section-pad) + 40px);
+  width: 1px;
+  background: linear-gradient(var(--line-1) 60%, transparent);
+}
+
+/* scroll-drawn fill over the stub */
+.trace-path-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(var(--cyan-0), rgba(79, 227, 255, 0.15));
+  transform-origin: top;
+  box-shadow: 0 0 8px rgba(79, 227, 255, 0.4);
+}
+
+/* checkpoint node */
+.trace-node {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--bg-0);
+  border: 1px solid var(--cyan-0);
+  box-shadow: var(--glow-signal);
+}
+
+.trace-node::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1px solid var(--cyan-line);
+  animation: node-pulse 2.8s var(--ease-out) infinite;
+}
+
+@keyframes node-pulse {
+  0% {
+    transform: scale(0.55);
+    opacity: 1;
+  }
+  70%,
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+.trace-period {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4);
+  margin-bottom: var(--s-4);
+}
+
+.trace-role {
+  font-size: var(--text-t1);
+  margin-bottom: var(--s-2);
+}
+
+.trace-org {
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--ink-0);
+  margin-bottom: var(--s-6);
+}
+
+.trace-org span {
+  color: var(--ink-2);
+  font-weight: 400;
+}
+
+.trace-summary {
+  margin-bottom: var(--s-10);
+}
+
+/* evidence list */
+.trace-sub {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+}
+
+.trace-sub::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line-0);
+}
+
+/* evidence cards — scan highlight on hover (decorative; content is static) */
+.evidence {
+  margin-bottom: var(--s-10);
+}
+
+.evidence li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3ch 1fr;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-4);
+  margin-bottom: var(--s-2);
+  border: 1px solid var(--line-0);
+  border-radius: var(--r-1);
+  background: rgba(10, 17, 29, 0.55);
+  color: var(--ink-1);
+  transition: color var(--dur-small) var(--ease-out), border-color var(--dur-small) var(--ease-out),
+    background-color var(--dur-small) var(--ease-out);
+}
+
+.evidence li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--cyan-0);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--dur-small) var(--ease-out);
+  box-shadow: var(--glow-signal);
+}
+
+.evidence li:hover {
+  color: var(--ink-0);
+  border-color: var(--line-1);
+  background: var(--cyan-tint);
+}
+
+.evidence li:hover::before {
+  transform: scaleY(1);
+}
+
+.evidence-num {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.06em;
+  color: var(--cyan-0);
+  padding-top: 0.35em;
+}
+
+.methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-bottom: var(--s-10);
+}
+
+.trace-status {
+  display: inline-flex;
+}
+
+/* -- responsive ------------------------------------------------------------------ */
+
+@media (max-width: 1023px) {
+  .trace {
+    grid-template-columns: 1fr;
+  }
+
+  .trace-rail {
+    position: static;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 767px) {
+  .trace-rail {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-4);
+  }
+
+  .trace-path {
+    bottom: calc(-1 * var(--section-pad) + 16px);
+  }
+}

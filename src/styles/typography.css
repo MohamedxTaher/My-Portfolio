@@ -1,0 +1,169 @@
+/* ==========================================================================
+   typography.css — the three-voice system: Archivo display / Inter body /
+   IBM Plex Mono metadata. Hierarchy comes from scale, weight, tracking and
+   position first; color second.
+   ========================================================================== */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 125%;
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--ink-0);
+}
+
+p {
+  color: var(--ink-1);
+  max-width: 62ch;
+}
+
+/* -- mono voice ------------------------------------------------------------ */
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-s);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  text-transform: uppercase;
+}
+
+.mono--xs {
+  font-size: var(--text-mono-xs);
+}
+
+.mono--signal {
+  color: var(--cyan-0);
+}
+
+/* kicker: `01 // ABOUT` pattern */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-s);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.kicker::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--cyan-0);
+  box-shadow: var(--glow-signal);
+}
+
+/* -- display utilities ------------------------------------------------------ */
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink-1);
+}
+
+@media (min-width: 1024px) {
+  .text-outline {
+    -webkit-text-stroke-width: 2px;
+  }
+}
+
+/* ghost chapter number — huge, outlined, decorative backdrop */
+.ghost-num {
+  position: absolute;
+  top: -0.08em;
+  right: 0;
+  z-index: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(9rem, 4rem + 22vw, 20rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(116, 135, 158, 0.16);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* -- editorial helpers -------------------------------------------------------- */
+
+.lead {
+  font-size: var(--text-body-l);
+  line-height: 1.75;
+  color: var(--ink-1);
+}
+
+.signal-em {
+  font-style: normal;
+  color: var(--cyan-1);
+}
+
+/* chapter title inside the section header */
+.chapter-title {
+  font-size: var(--text-t0);
+  letter-spacing: -0.015em;
+}
+
+/* small screens: the longest display word ("CERTIFICATIONS") must fit the column */
+@media (max-width: 599px) {
+  .chapter-title,
+  .channel-title {
+    font-size: clamp(1.5rem, 8vw, 2.4rem);
+  }
+}
+
+/* hairline rule with end ticks */
+.rule {
+  position: relative;
+  height: 1px;
+  background: var(--line-0);
+  transform-origin: left;
+}
+
+.rule::before,
+.rule::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 1px;
+  height: 5px;
+  background: var(--line-1);
+}
+
+.rule::before {
+  left: 0;
+}
+
+.rule::after {
+  right: 0;
+}
+
+/* -- chapter header (shared section frame) --------------------------------- */
+
+.chapter-head {
+  position: relative;
+  margin-bottom: clamp(2.75rem, 5vw, 4.5rem);
+}
+
+.chapter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4) var(--s-6);
+  margin-top: var(--s-4);
+}
+
+.chapter-meta {
+  text-align: right;
+}
+
+.chapter-head .rule {
+  margin-top: var(--s-5);
+}

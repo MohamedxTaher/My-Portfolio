@@ -1,0 +1,3 @@
+VanguardSOC is a production-ready SIEM system designed to mirror enterprise workflows found in tools like Wazuh and Splunk. It ingests raw Syslog and Nginx events, normalizes them through a two-stage regex parser, and runs time-windowed correlation rules to detect critical threats in real time. Built with a FastAPI backend and a custom SOC command dashboard, the system features JWT-secured RBAC, Prometheus/Grafana telemetry, and automated database migrations—fully containerized via Docker Compose.
+
+https://github.com/MohamedxTaher/VanguardSOC

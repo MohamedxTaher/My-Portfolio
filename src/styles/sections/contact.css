@@ -1,0 +1,138 @@
+/* ==========================================================================
+   sections/contact.css — 06 CONTACT: opportunity status, primary calls to
+   action, and the channel panel (email / LinkedIn / GitHub rows, copy
+   confirmation, CV document).
+   ========================================================================== */
+
+.channel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: start;
+}
+
+/* headline */
+.channel-title {
+  font-size: var(--text-t0);
+}
+
+.channel-title span {
+  display: block;
+}
+
+.channel-invite {
+  margin-top: var(--s-6);
+  max-width: 44ch;
+}
+
+/* channels panel */
+.channel-panel {
+  position: relative;
+  padding: var(--s-6);
+}
+
+.channel-list {
+  border-top: 1px solid var(--line-0);
+}
+
+.channel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--s-2);
+  border-bottom: 1px solid var(--line-0);
+  transition: background-color var(--dur-small) var(--ease-out);
+}
+
+.channel-row:hover {
+  background: var(--cyan-tint);
+}
+
+.channel-meta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.channel-value {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  color: var(--ink-0);
+  transition: color var(--dur-small) var(--ease-out);
+  overflow-wrap: anywhere;
+}
+
+.channel-row:hover .channel-value {
+  color: var(--cyan-1);
+}
+
+.channel-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: none;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line-0);
+  border-radius: var(--r-1);
+  color: var(--ink-2);
+  transition: color var(--dur-small) var(--ease-out), border-color var(--dur-small) var(--ease-out),
+    background-color var(--dur-small) var(--ease-out);
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  color: var(--cyan-1);
+  border-color: var(--cyan-line);
+  background: var(--cyan-tint);
+}
+
+/* copied confirmation */
+.copied {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lime-0);
+  min-width: 5.5ch;
+  text-align: right;
+}
+
+.channel-cv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--s-2) 0;
+}
+
+/* opportunity status + primary calls to action */
+.channel-note {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+.channel-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4);
+  margin-top: var(--s-8);
+}
+
+/* responsive */
+@media (max-width: 1023px) {
+  .channel {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,537 @@
+/* ==========================================================================
+   sections/about.css — 01 IDENTITY: hero (7/5 split, stacked display name,
+   forensic scope portrait) + identity core (statement, counters, traits).
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+}
+
+.hero-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5.5rem);
+  align-items: center;
+  align-content: center;
+  padding-block: 120px 56px;
+  container-type: inline-size;
+}
+
+@media (max-width: 1023px) {
+  .hero-main {
+    padding-block: 88px 40px;
+  }
+}
+
+/* -- name block ------------------------------------------------------------- */
+
+/* the identity column is the sizing container for the display name */
+.hero-id {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.hero-kicker {
+  margin-bottom: var(--s-6);
+}
+
+.hero-name {
+  /* column-relative: the longest word (ELREFAEY ≈ 6.5em at wdth 125)
+     always fits the identity column — no mid-word clipping at any width */
+  font-size: clamp(2.6rem, 14cqi, 6.75rem);
+  line-height: 0.92;
+  margin-bottom: var(--s-8);
+}
+
+.hero-name span {
+  display: block;
+}
+
+/* staggered clip reveal for each name line */
+.hero-line {
+  overflow: hidden;
+}
+
+.hero-intro {
+  max-width: 46ch;
+  margin-bottom: var(--s-10);
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4) var(--s-5);
+}
+
+.hero-channel-link {
+  min-height: 32px;
+}
+
+/* -- scanner metadata (portfolio information, honestly labeled) ----------------- */
+
+.scope-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-2) var(--s-4);
+  margin-top: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px dashed var(--line-0);
+}
+
+.scope-meta dt {
+  color: var(--ink-2);
+  text-transform: uppercase;
+}
+
+.scope-meta dt::after {
+  content: ' //';
+  color: var(--line-1);
+}
+
+.scope-meta dd {
+  color: var(--ink-1);
+  text-transform: uppercase;
+}
+
+.scope-meta-status {
+  color: var(--amber-0);
+}
+
+/* evidence target markers — appear after the entrance scan, then rest */
+.scope-marker {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.scope-marker::before,
+.scope-marker::after {
+  content: '';
+  position: absolute;
+  background: var(--cyan-0);
+  box-shadow: var(--glow-signal);
+}
+
+.scope-marker::before {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-0.5px);
+  background: linear-gradient(transparent, var(--cyan-0) 30% 70%, transparent);
+}
+
+.scope-marker::after {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: translateY(-0.5px);
+  background: linear-gradient(90deg, transparent, var(--cyan-0) 30% 70%, transparent);
+}
+
+.scope-marker--a {
+  left: 22%;
+  top: 58%;
+}
+
+.scope-marker--b {
+  left: 71%;
+  top: 24%;
+  transform: scale(0.8);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scope-marker {
+    animation: marker-in 0.5s var(--ease-out) both;
+  }
+
+  .scope-marker--a {
+    animation-delay: 1.5s;
+  }
+
+  .scope-marker--b {
+    animation-delay: 1.75s;
+  }
+}
+
+@keyframes marker-in {
+  from {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+  to {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+}
+
+.scope-marker--b {
+  animation-name: marker-in-b;
+}
+
+@keyframes marker-in-b {
+  from {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+  to {
+    opacity: 0.75;
+    transform: scale(0.8);
+  }
+}
+
+/* -- forensic scope portrait ---------------------------------------------------- */
+
+.scope {
+  position: relative;
+  justify-self: end;
+  width: min(100%, 400px);
+}
+
+.scope-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--bg-2);
+  overflow: hidden;
+}
+
+.scope-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.55) contrast(1.02) brightness(0.88);
+  transition: filter var(--dur-large) var(--ease-out), transform var(--dur-large) var(--ease-out);
+}
+
+.scope:hover .scope-frame img,
+.scope:focus-within .scope-frame img {
+  filter: grayscale(0.12) contrast(1.02) brightness(0.98);
+  transform: scale(1.025);
+}
+
+/* cyan edge wash + obsidian tint — the frame reads as a scan surface,
+   not a bright rectangle */
+.scope-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(160deg, rgba(79, 227, 255, 0.14), transparent 42%),
+    linear-gradient(rgba(7, 12, 22, 0.28), rgba(7, 12, 22, 0.12) 30%, rgba(5, 8, 15, 0.62) 96%);
+  pointer-events: none;
+}
+
+/* vertical scanline (entrance sweep runs once; re-runs on hover via rename) */
+.scope-frame .scan-sweep {
+  height: 3px;
+}
+
+@keyframes scan-y-hover {
+  0% {
+    top: -2%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    top: 102%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scope:hover .scan-sweep,
+  .scope:focus-within .scan-sweep {
+    animation-name: scan-y-hover;
+  }
+}
+
+/* coordinate ticks flanking the frame */
+.scope-ruler {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+
+.scope-ruler--left {
+  left: -1.75rem;
+}
+
+.scope-ruler--right {
+  right: -1.75rem;
+}
+
+.scope-ruler span {
+  writing-mode: vertical-rl;
+}
+
+.scope-ruler i {
+  width: 1px;
+  height: 14px;
+  background: var(--line-1);
+  font-style: normal;
+}
+
+/* shorter desktop viewports: keep the portrait + scanner metadata inside the fold */
+@media (min-width: 1024px) and (max-height: 940px) {
+  .hero-main {
+    padding-block: 96px 32px;
+  }
+
+  .scope {
+    width: min(100%, 356px);
+  }
+
+  .scope-meta {
+    margin-top: var(--s-3);
+  }
+}
+
+/* -- hero footer rail ------------------------------------------------------------ */
+
+.hero-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-6);
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--line-0);
+}
+
+.scroll-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  color: var(--ink-2);
+}
+
+.scroll-hint-tick {
+  position: relative;
+  width: 1px;
+  height: 26px;
+  background: var(--line-1);
+  overflow: hidden;
+}
+
+.scroll-hint-tick::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(var(--cyan-0), transparent);
+  animation: hint-drop 2.4s var(--ease-inout) infinite;
+}
+
+@keyframes hint-drop {
+  0% {
+    top: -100%;
+  }
+  55%,
+  100% {
+    top: 100%;
+  }
+}
+
+/* -- identity core ------------------------------------------------------------------ */
+
+.core {
+  position: relative;
+  padding-block: var(--s-20) var(--section-pad);
+}
+
+.core-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.core-statement p + p {
+  margin-top: var(--s-5);
+}
+
+/* masked-line heading reveal */
+.core-heading-mask {
+  display: block;
+  overflow: hidden;
+  margin-bottom: var(--s-6);
+}
+
+.core-heading {
+  font-size: var(--text-t1);
+  color: var(--ink-0);
+}
+
+.core-copy p + p {
+  margin-top: var(--s-5);
+}
+
+.counter-label {
+  display: block;
+  margin-top: var(--s-3);
+  max-width: 22ch;
+}
+
+.core-aside {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  padding: var(--s-6);
+  border-left: 1px solid var(--line-0);
+}
+
+.core-aside img {
+  width: 92px;
+  height: auto;
+  opacity: 0.85;
+}
+
+/* counters strip */
+.counters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: clamp(3rem, 6vw, 5.5rem);
+  border-block: 1px solid var(--line-0);
+}
+
+.counter {
+  padding: var(--s-8) var(--s-6);
+}
+
+.counter + .counter {
+  border-left: 1px solid var(--line-0);
+}
+
+.counter-value {
+  font-family: var(--font-display);
+  font-weight: 850;
+  font-stretch: 122%;
+  font-size: clamp(2.1rem, 1.4rem + 3vw, 3.6rem);
+  line-height: 1;
+  color: var(--ink-0);
+  font-variant-numeric: tabular-nums;
+}
+
+.counter-value em {
+  font-style: normal;
+  color: var(--cyan-0);
+}
+
+/* verified traits */
+.traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-8);
+}
+
+.trait {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 8px 12px;
+  border: 1px solid var(--line-0);
+  border-radius: var(--r-1);
+  background: rgba(13, 23, 39, 0.5);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-1);
+  transition: border-color var(--dur-small) var(--ease-out), color var(--dur-small) var(--ease-out);
+}
+
+.trait svg {
+  color: var(--lime-0);
+  flex: none;
+}
+
+.trait:hover {
+  color: var(--ink-0);
+  border-color: var(--line-1);
+}
+
+/* -- responsive recomposition ------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .scope {
+    justify-self: center;
+    order: 2;
+  }
+
+  .scope-ruler {
+    display: none;
+  }
+
+  .hero-name {
+    order: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-main {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: var(--s-10);
+  }
+
+  /* mobile hierarchy: name → intro → CTAs → portrait */
+  .scope {
+    order: 4;
+    width: min(100%, 340px);
+  }
+
+  .core-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .core-aside {
+    border-left: 0;
+    border-block: 1px solid var(--line-0);
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .counters {
+    grid-template-columns: 1fr;
+  }
+
+  .counter {
+    padding: var(--s-5) 0;
+  }
+
+  .counter + .counter {
+    border-left: 0;
+    border-top: 1px solid var(--line-0);
+  }
+
+  .hero-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-2);
+  }
+}

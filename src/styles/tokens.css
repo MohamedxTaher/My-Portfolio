@@ -1,0 +1,99 @@
+/* ==========================================================================
+   tokens.css — the single source of design values (colors, type, space,
+   radii, motion, z). Components never hardcode these.
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* -- ground: obsidian blue-black field ---------------------------- */
+  --bg-0: #05080f;
+  --bg-1: #070c16;
+  --bg-2: #0a111d;
+  --bg-3: #0d1727;
+
+  /* -- ink ----------------------------------------------------------- */
+  --ink-0: #eaf2fb;
+  --ink-1: #9fb0c3;
+  --ink-2: #74879e;
+
+  /* -- hairlines ------------------------------------------------------ */
+  --line-0: #16202f;
+  --line-1: #24374f;
+
+  /* -- signal: the dominant accent ------------------------------------ */
+  --cyan-0: #4fe3ff;
+  --cyan-1: #9ff0ff;
+  --cyan-tint: rgba(79, 227, 255, 0.07);
+  --cyan-tint-2: rgba(79, 227, 255, 0.14);
+  --cyan-line: rgba(79, 227, 255, 0.35);
+
+  /* -- semantic accents (rare, meaning-carrying) ---------------------- */
+  --lime-0: #a6f26b;
+  --lime-tint: rgba(166, 242, 107, 0.09);
+  --violet-0: #9d8cff;
+  --violet-tint: rgba(157, 140, 255, 0.09);
+  --amber-0: #f5b84b;
+  --amber-tint: rgba(245, 184, 75, 0.1);
+  --red-0: #ff6b6b; /* reserved for actual critical state — scheduled unused */
+
+  /* -- glow: signal events only, never static ornament ---------------- */
+  --glow-signal: 0 0 18px rgba(79, 227, 255, 0.26), 0 0 2px rgba(79, 227, 255, 0.55);
+  --glow-verified: 0 0 14px rgba(166, 242, 107, 0.28);
+
+  /* -- type families --------------------------------------------------- */
+  --font-display: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  /* -- fluid type scale ------------------------------------------------ */
+  --text-mono-xs: 0.6875rem; /* 11px — metadata rails */
+  --text-mono-s: 0.75rem; /* 12px — kickers, statuses */
+  --text-body-s: 0.9375rem; /* 15px */
+  --text-body: 1.0625rem; /* 17px — base body */
+  --text-body-l: 1.1875rem; /* 19px — statements */
+  --text-t2: clamp(1.3rem, 1.05rem + 1.2vw, 1.8rem);
+  --text-t1: clamp(1.7rem, 1.2rem + 2.4vw, 2.9rem);
+  --text-t0: clamp(2.3rem, 1.5rem + 4.4vw, 4.4rem);
+  --text-hero: clamp(3rem, 1.1rem + 8.2vw, 7rem);
+
+  /* -- spacing (4px base) + layout -------------------------------------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --section-pad: clamp(5rem, 3.5rem + 6vw, 9rem);
+  --container: 1280px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --rail-w: 76px;
+
+  /* -- radii (engineered, near-square) ---------------------------------- */
+  --r-1: 2px;
+  --r-2: 4px;
+  --r-3: 8px;
+
+  /* -- motion ------------------------------------------------------------ */
+  --dur-micro: 120ms;
+  --dur-small: 200ms;
+  --dur-med: 380ms;
+  --dur-large: 620ms;
+  --dur-cine: 900ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* -- z-index ladder ------------------------------------------------------ */
+  --z-bg: 0;
+  --z-content: 10;
+  --z-rail: 40;
+  --z-sheet: 60;
+  --z-dialog: 70;
+  --z-entry: 80;
+  --z-cursor: 100;
+}

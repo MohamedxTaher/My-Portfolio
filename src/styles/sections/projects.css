@@ -1,0 +1,579 @@
+/* ==========================================================================
+   sections/projects.css — 05 CASE FILES: full-bleed rows + full-screen
+   case-file overlay (dialog semantics, shared image transition).
+   ========================================================================== */
+
+.case-list {
+  border-top: 1px solid var(--line-0);
+}
+
+.case-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(64px, 8vw, 110px) minmax(0, 1fr) clamp(320px, 34vw, 480px);
+  align-items: center;
+  gap: clamp(1.25rem, 3.5vw, 3rem);
+  padding: var(--s-10) var(--s-4);
+  border-bottom: 1px solid var(--line-0);
+  transition: background-color var(--dur-small) var(--ease-out);
+}
+
+.case-row:hover {
+  background: var(--cyan-tint);
+}
+
+/* cursor-tracked spotlight sheen behind the row content */
+.case-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity var(--dur-med) var(--ease-out);
+}
+
+.case-row:hover .case-glow,
+.case-row:focus-within .case-glow {
+  opacity: 1;
+}
+
+/* left activation edge */
+.case-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--cyan-0);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--dur-med) var(--ease-out);
+  box-shadow: var(--glow-signal);
+}
+
+.case-row:hover::before,
+.case-row:focus-within::before {
+  transform: scaleY(1);
+}
+
+.case-idx {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: clamp(2rem, 3.4vw, 3.4rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--ink-2);
+  transition: -webkit-text-stroke-color var(--dur-small) var(--ease-out);
+  user-select: none;
+}
+
+.case-row:hover .case-idx {
+  -webkit-text-stroke-color: var(--cyan-0);
+}
+
+.case-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.case-title {
+  font-size: var(--text-t1);
+  transition: color var(--dur-small) var(--ease-out);
+}
+
+.case-desc {
+  font-size: var(--text-body-s);
+  max-width: 58ch;
+}
+
+.case-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-1);
+}
+
+.case-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-s);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan-0);
+}
+
+.case-cta .case-cta-arrow {
+  transition: transform var(--dur-small) var(--ease-out);
+}
+
+.case-row:hover .case-cta .case-cta-arrow {
+  transform: translateX(4px);
+}
+
+/* row actions sit above the stretched open button so both targets work */
+.case-row-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-6);
+}
+
+.case-source {
+  min-height: 32px;
+}
+
+/* preview tag */
+.case-thumb-tag {
+  position: absolute;
+  left: var(--s-3);
+  bottom: var(--s-3);
+  z-index: 1;
+  padding: 4px 8px;
+  background: rgba(5, 8, 15, 0.78);
+  border: 1px solid var(--line-0);
+  border-radius: var(--r-1);
+  color: var(--ink-1);
+}
+
+/* stretched open button — the whole row is the control */
+.case-open {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 0;
+}
+
+.case-open:focus-visible {
+  outline-offset: -4px;
+}
+
+/* thumbnail — shared element source for the overlay image */
+.case-thumb {
+  position: relative;
+  z-index: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--line-0);
+  background: var(--bg-2);
+}
+
+.case-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.12) contrast(1.03);
+  transition: filter var(--dur-large) var(--ease-out), transform var(--dur-large) var(--ease-out);
+}
+
+.case-row:hover .case-thumb img {
+  filter: grayscale(0);
+  transform: scale(1.045);
+}
+
+/* -- full-screen case file ------------------------------------------------------ */
+
+.case-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-dialog);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(4, 7, 13, 0.9);
+  backdrop-filter: blur(14px);
+  padding: clamp(1rem, 4vh, 4rem) var(--gutter);
+}
+
+.case-sheet {
+  width: min(1060px, 100%);
+  margin-inline: auto;
+  background: var(--bg-1);
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-2);
+}
+
+.case-sheet-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-6);
+  background: rgba(7, 12, 22, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-0);
+}
+
+.case-close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-1);
+  color: var(--ink-1);
+  transition: color var(--dur-small) var(--ease-out), border-color var(--dur-small) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+}
+
+.case-close:hover,
+.case-close:focus-visible {
+  color: var(--cyan-1);
+  border-color: var(--cyan-line);
+  transform: rotate(90deg);
+}
+
+.case-sheet-hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line-0);
+  background: var(--bg-2);
+}
+
+.case-sheet-hero img {
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+}
+
+.case-sheet-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 12, 22, 0.2), transparent 40%, rgba(7, 12, 22, 0.72));
+  pointer-events: none;
+}
+
+.case-sheet-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  padding: var(--s-10) var(--s-8) var(--s-12);
+}
+
+.case-context p {
+  font-size: var(--text-body);
+}
+
+.case-evidence {
+  margin-top: var(--s-5);
+}
+
+.case-evidence li {
+  display: grid;
+  grid-template-columns: 3ch 1fr;
+  gap: var(--s-3);
+  padding-block: var(--s-3);
+  border-top: 1px solid var(--line-0);
+  font-size: var(--text-body-s);
+  color: var(--ink-1);
+}
+
+.case-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-5);
+}
+
+.case-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  margin-top: var(--s-8);
+}
+
+/* -- pipeline (evidence flow) ------------------------------------------------- */
+
+.case-pipeline {
+  padding: var(--s-8) var(--s-8) var(--s-6);
+  border-top: 1px solid var(--line-0);
+}
+
+.pipe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) 0;
+  margin-top: var(--s-5);
+}
+
+.pipe-item {
+  display: flex;
+  align-items: center;
+}
+
+.pipe-stage {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 7px 12px;
+  border: 1px solid var(--line-0);
+  border-radius: var(--r-1);
+  background: rgba(10, 17, 29, 0.6);
+}
+
+.pipe-node {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan-0);
+  box-shadow: 0 0 8px rgba(79, 227, 255, 0.5);
+}
+
+.pipe-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-0);
+}
+
+/* connector with a traveling packet sweep (transform-free, tiny element) */
+.pipe-link {
+  position: relative;
+  width: clamp(18px, 4vw, 52px);
+  height: 1px;
+  margin-inline: var(--s-2);
+  background: linear-gradient(90deg, var(--cyan-0), var(--line-1) 40%, var(--line-1));
+  background-size: 250% 100%;
+  overflow: hidden;
+}
+
+.pipe-link::after {
+  content: '';
+  position: absolute;
+  top: -1.5px;
+  left: -6px;
+  width: 6px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--cyan-1);
+  box-shadow: var(--glow-signal);
+  animation: pipe-packet 1.5s linear infinite;
+}
+
+/* travel distance exceeds every connector width; overflow clips the rest */
+@keyframes pipe-packet {
+  to {
+    transform: translateX(72px);
+  }
+}
+
+/* -- incident replay (sample data) --------------------------------------------- */
+
+.case-replay {
+  padding: var(--s-8);
+  border-top: 1px solid var(--line-0);
+  background: rgba(7, 12, 22, 0.5);
+}
+
+.replay-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.replay-actions {
+  display: flex;
+  gap: var(--s-3);
+}
+
+.replay-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 10px 18px;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-s);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan-1);
+  border: 1px solid var(--cyan-line);
+  border-radius: var(--r-1);
+  background: var(--cyan-tint);
+  transition: background-color var(--dur-small) var(--ease-out), border-color var(--dur-small) var(--ease-out),
+    box-shadow var(--dur-small) var(--ease-out);
+}
+
+.replay-btn:hover,
+.replay-btn:focus-visible {
+  background: var(--cyan-tint-2);
+  border-color: var(--cyan-0);
+  box-shadow: var(--glow-signal);
+}
+
+.replay-btn--ghost {
+  color: var(--ink-1);
+  border-color: var(--line-1);
+  background: transparent;
+}
+
+.replay-btn--ghost:hover,
+.replay-btn--ghost:focus-visible {
+  color: var(--ink-0);
+  border-color: var(--ink-2);
+  box-shadow: none;
+}
+
+.replay-note {
+  margin-top: var(--s-3);
+  color: var(--amber-0);
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+.replay-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+.replay-step {
+  display: grid;
+  grid-template-columns: 3ch 1fr;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border: 1px solid var(--line-0);
+  border-radius: var(--r-1);
+  background: rgba(10, 17, 29, 0.55);
+  opacity: 0.4;
+  transition: opacity var(--dur-med) var(--ease-out), border-color var(--dur-med) var(--ease-out),
+    box-shadow var(--dur-med) var(--ease-out);
+}
+
+.replay-step.is-reached {
+  opacity: 1;
+  border-color: var(--cyan-line);
+}
+
+.replay-step.is-reached .replay-step-num {
+  color: var(--cyan-0);
+}
+
+.replay-step-num {
+  color: var(--ink-2);
+  padding-top: 0.2em;
+}
+
+.replay-step-title {
+  color: var(--ink-2);
+  margin-bottom: var(--s-1);
+}
+
+.replay-step-body {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-s);
+  letter-spacing: 0.01em;
+  color: var(--ink-0);
+  text-transform: none;
+  overflow-wrap: anywhere;
+}
+
+/* -- responsive ------------------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .case-row {
+    grid-template-columns: clamp(48px, 6vw, 64px) minmax(0, 1fr);
+  }
+
+  .case-thumb {
+    grid-column: 2;
+    width: min(100%, 560px);
+  }
+}
+
+@media (max-width: 767px) {
+  .case-row {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+    padding-inline: 0;
+  }
+
+  .case-row::before {
+    display: none;
+  }
+
+  .case-idx {
+    font-size: 2rem;
+    -webkit-text-stroke-width: 0.5px;
+  }
+
+  /* longest unbreakable run is "SENTINELPULSE-" — must fit a 375px column */
+  .case-title {
+    font-size: clamp(1.2rem, 1rem + 2vw, 1.5rem);
+    overflow-wrap: break-word;
+  }
+
+  .case-sheet-body {
+    grid-template-columns: 1fr;
+    padding: var(--s-8) var(--s-5);
+  }
+
+  .case-sheet-hero img {
+    aspect-ratio: 16 / 9;
+  }
+
+  .case-pipeline,
+  .case-replay {
+    padding-inline: var(--s-5);
+  }
+
+  /* pipeline becomes a vertical flow */
+  .pipe {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .pipe-link {
+    width: 1px;
+    height: 20px;
+    margin-block: var(--s-1);
+    background: linear-gradient(180deg, var(--cyan-0), var(--line-1) 40%, var(--line-1));
+    background-size: 100% 250%;
+  }
+
+  .pipe-link::after {
+    left: -1.5px;
+    top: -6px;
+    width: 4px;
+    height: 6px;
+    animation-name: pipe-packet-y;
+  }
+
+  @keyframes pipe-packet-y {
+    to {
+      transform: translateY(72px);
+    }
+  }
+
+  .replay-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .replay-actions {
+    width: 100%;
+  }
+}

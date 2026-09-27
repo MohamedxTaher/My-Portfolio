@@ -1,0 +1,188 @@
+/* ==========================================================================
+   sections/skills.css — 04 CAPABILITY MAP: six domain clusters of signal
+   nodes with a self-assessed 3-dot scale. Organization, not proficiency.
+   ========================================================================== */
+
+.cap-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-4);
+  margin-bottom: var(--s-8);
+}
+
+.cap-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+}
+
+.legend-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.legend-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.legend-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--line-1);
+}
+
+.legend-dots i.on {
+  background: var(--cyan-0);
+  box-shadow: 0 0 6px rgba(79, 227, 255, 0.5);
+}
+
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+
+@media (max-width: 1023px) {
+  .cap-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .cap-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cap-cluster {
+  padding: var(--s-5);
+  transition: border-color var(--dur-small) var(--ease-out);
+}
+
+.cap-cluster:hover {
+  border-color: var(--line-1);
+}
+
+/* cluster header = the domain toggle */
+.cap-cluster-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  transition: background-color var(--dur-small) var(--ease-out);
+}
+
+.cap-cluster-head:hover {
+  background: var(--violet-tint);
+}
+
+/* divider + breathing room appear only while the domain is expanded */
+.cap-cluster-head[aria-expanded='true'] {
+  padding-bottom: var(--s-3);
+  margin-bottom: var(--s-2);
+  border-bottom: 1px solid var(--line-0);
+}
+
+.cap-cluster-idx {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.1em;
+  color: var(--violet-0);
+}
+
+.cap-cluster-titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.cap-cluster-name {
+  font-size: 0.98rem;
+  font-weight: 650;
+  line-height: 1.4;
+  color: var(--ink-0);
+}
+
+.cap-cluster-count {
+  flex: none;
+}
+
+.cap-cluster-toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: var(--ink-2);
+  transition: color var(--dur-small) var(--ease-out), transform var(--dur-med) var(--ease-out);
+}
+
+.cap-cluster-head:hover .cap-cluster-toggle,
+.cap-cluster-head:focus-visible .cap-cluster-toggle {
+  color: var(--violet-0);
+}
+
+.cap-cluster-head[aria-expanded='true'] .cap-cluster-toggle {
+  transform: rotate(45deg);
+  color: var(--violet-0);
+}
+
+.cap-list {
+  overflow: hidden;
+}
+
+/* node rows */
+.cap-node {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: 10px 2px;
+  border-top: 1px solid var(--line-0);
+}
+
+.cap-list .cap-node:first-child {
+  border-top: 0;
+}
+
+.cap-node-name {
+  font-size: var(--text-body-s);
+  color: var(--ink-1);
+  transition: color var(--dur-small) var(--ease-out);
+}
+
+.cap-node:hover .cap-node-name,
+.cap-node:focus-visible .cap-node-name {
+  color: var(--ink-0);
+}
+
+.cap-dots {
+  display: inline-flex;
+  gap: 4px;
+  flex: none;
+}
+
+.cap-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--line-1);
+  transition: background-color var(--dur-small) var(--ease-out), box-shadow var(--dur-small) var(--ease-out);
+}
+
+.cap-dots i.on {
+  background: var(--cyan-0);
+}
+
+/* signal event: hovering a node lights its dots */
+.cap-node:hover .cap-dots i.on,
+.cap-node:focus-visible .cap-dots i.on {
+  box-shadow: 0 0 6px rgba(79, 227, 255, 0.55);
+}
