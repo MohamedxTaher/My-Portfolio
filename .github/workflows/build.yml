@@ -1,0 +1,51 @@
+name: Build and publish dist
+
+# Wasmer Edge serves this Vite site as a static site (it does not run the Vite
+# build itself). This workflow rebuilds `dist/` on every source push to main and
+# commits it back, so the Wasmer GitHub connection always redeploys the latest
+# build. Pushes that only touch `dist/` are ignored to avoid a commit loop.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'dist/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-dist-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Commit refreshed dist
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f dist
+          if git diff --cached --quiet; then
+            echo "dist is already up to date — nothing to commit."
+          else
+            git commit -m "chore: rebuild dist [skip ci]"
+            git push
+          fi

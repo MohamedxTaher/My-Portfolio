@@ -1,4 +1,7 @@
 node_modules
-dist
 *.local
 .DS_Store
+
+# NOTE: dist/ is intentionally committed. Wasmer Edge serves the built static
+# site directly (it does not run the Vite build for this project type), and the
+# GitHub Action rebuilds dist on every push so the deployed site stays current.
