@@ -16,7 +16,7 @@ import certCcepUrl from '../../assets/certifications/cert-ccep.webp?url';
 import certCyberEngineerUrl from '../../assets/certifications/cert-cyber-security-engineer.webp?url';
 import certWebFundamentalsUrl from '../../assets/certifications/cert-web-fundamentals.webp?url';
 import certCcnaUrl from '../../assets/certifications/cert-ccna.webp?url';
-import certFortinetUrl from '../../assets/certifications/Fortinet Cybersecurity.png?url';
+import certFortinetUrl from '../../assets/certifications/Fortinet Cybersecurity.webp?url';
 
 /* -- profile ------------------------------------------------------------------ */
 
