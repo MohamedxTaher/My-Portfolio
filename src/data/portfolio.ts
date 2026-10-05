@@ -16,6 +16,7 @@ import certCcepUrl from '../../assets/certifications/cert-ccep.webp?url';
 import certCyberEngineerUrl from '../../assets/certifications/cert-cyber-security-engineer.webp?url';
 import certWebFundamentalsUrl from '../../assets/certifications/cert-web-fundamentals.webp?url';
 import certCcnaUrl from '../../assets/certifications/cert-ccna.webp?url';
+import certFortinetUrl from '../../assets/certifications/Fortinet Cybersecurity.png?url';
 
 /* -- profile ------------------------------------------------------------------ */
 
@@ -85,6 +86,12 @@ export type ExperienceItem = {
   summary: string;
   achievements: string[];
   methods: string[];
+  additionalTraining?: {
+    role: string;
+    organization: string;
+    summary: string;
+    topics: string[];
+  };
   link: string | null;
 };
 
@@ -113,6 +120,19 @@ export const experience: ExperienceItem[] = [
       'Local LLMs (Ollama)',
       'Forensic Evidence Collection',
     ],
+    additionalTraining: {
+      role: 'Cybersecurity Trainee (Fortinet)',
+      organization: 'ITIDA & National Telecommunication Institute (NTI)',
+      summary:
+        'Completed a 120-hour summer training program in Fortinet Cybersecurity, including 90 technical hours and 30 soft skills hours, organized by ITIDA and the National Telecommunication Institute (NTI). Final score: 94%.',
+      topics: [
+        'Networking fundamentals and protocols (TCP/IP), network infrastructure and design, routing, and NAT.',
+        'Network security basics and FortiGate firewall policies.',
+        'Authenticating network users and blocking malware.',
+        'Web filtering, Intrusion Prevention System (IPS), and application control.',
+        'IPsec VPNs and SSL VPN.',
+      ],
+    },
     link: null,
   },
 ];
@@ -137,6 +157,15 @@ export type Certification = {
 export const certifications: Certification[] = [
   {
     index: '01',
+    category: 'Network Security',
+    title: 'Fortinet Cybersecurity',
+    issuer: 'ITIDA & NTI',
+    year: '2026',
+    status: null,
+    imagePath: certFortinetUrl,
+  },
+  {
+    index: '02',
     category: 'Networking',
     title: 'CCNA',
     issuer: 'Creativa Mansoura',
@@ -145,7 +174,7 @@ export const certifications: Certification[] = [
     imagePath: certCcnaUrl,
   },
   {
-    index: '02',
+    index: '03',
     category: 'Blue Team',
     title: 'Certified Cybersecurity Educator Professional (CCEP)',
     issuer: 'Red Team Leaders',
@@ -154,7 +183,7 @@ export const certifications: Certification[] = [
     imagePath: certCcepUrl,
   },
   {
-    index: '03',
+    index: '04',
     category: 'SOC & Engineering',
     title: 'Cyber Security Engineer Job Profile',
     issuer: 'Mahara-Tech / ITI',
@@ -163,7 +192,7 @@ export const certifications: Certification[] = [
     imagePath: certCyberEngineerUrl,
   },
   {
-    index: '04',
+    index: '05',
     category: 'Web Security',
     title: 'Web Fundamentals (Legacy)',
     issuer: 'TryHackMe',
@@ -382,7 +411,7 @@ export const metrics: Metric[] = [
     label: 'hours of hands-on SOC training',
   },
   {
-    value: '4',
+    value: '5',
     label: 'verified certifications',
   },
   {

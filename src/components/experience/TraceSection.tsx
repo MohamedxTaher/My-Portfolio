@@ -118,6 +118,27 @@ export function TraceSection() {
             <motion.div variants={riseIn}>
               <span className="status status--signal">training in progress</span>
             </motion.div>
+
+            {entry.additionalTraining && (
+              <motion.section className="trace-additional" variants={riseIn} aria-labelledby="fortinet-training-title">
+                <div className="trace-sub mono">additional training</div>
+                <div className="trace-additional-card">
+                  <p className="trace-additional-kicker mono mono--xs">summer program // 120 hours</p>
+                  <h4 id="fortinet-training-title" className="trace-additional-title">
+                    {entry.additionalTraining.role}
+                  </h4>
+                  <p className="trace-additional-org">
+                    {entry.additionalTraining.organization} <span>— final score: 94%</span>
+                  </p>
+                  <p className="trace-additional-summary">{entry.additionalTraining.summary}</p>
+                  <ul className="trace-additional-topics">
+                    {entry.additionalTraining.topics.map((topic) => (
+                      <li key={topic}>{topic}</li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.section>
+            )}
           </motion.div>
         </article>
       </div>

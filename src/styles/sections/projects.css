@@ -10,10 +10,10 @@
 .case-row {
   position: relative;
   display: grid;
-  grid-template-columns: clamp(64px, 8vw, 110px) minmax(0, 1fr) clamp(320px, 34vw, 480px);
+  grid-template-columns: clamp(64px, 8vw, 110px) minmax(0, 1fr) clamp(380px, 38vw, 580px);
   align-items: center;
   gap: clamp(1.25rem, 3.5vw, 3rem);
-  padding: var(--s-10) var(--s-4);
+  padding: clamp(2.5rem, 5vw, 4rem) var(--s-4);
   border-bottom: 1px solid var(--line-0);
   transition: background-color var(--dur-small) var(--ease-out);
 }
@@ -166,10 +166,13 @@
 .case-thumb {
   position: relative;
   z-index: 0;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid var(--line-0);
+  border-radius: var(--r-2);
   background: var(--bg-2);
+  box-shadow: 0 18px 42px rgba(2, 5, 10, 0.32);
+  transition: border-color var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
 }
 
 .case-thumb img {
@@ -182,7 +185,12 @@
 
 .case-row:hover .case-thumb img {
   filter: grayscale(0);
-  transform: scale(1.045);
+  transform: scale(1.06);
+}
+
+.case-row:hover .case-thumb {
+  border-color: var(--cyan-line);
+  box-shadow: 0 22px 52px rgba(2, 5, 10, 0.46), var(--glow-signal);
 }
 
 /* -- full-screen case file ------------------------------------------------------ */
@@ -500,7 +508,7 @@
 
   .case-thumb {
     grid-column: 2;
-    width: min(100%, 560px);
+    width: min(100%, 640px);
   }
 }
 
